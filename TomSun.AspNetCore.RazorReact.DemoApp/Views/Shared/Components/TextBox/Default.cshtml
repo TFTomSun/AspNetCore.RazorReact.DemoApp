@@ -1,0 +1,10 @@
+﻿@addTagHelper "*, TomSun.AspNetCore.RazorReact"
+@using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
+<div>
+    <label>@TextBox.View.Bind(x => x.props.Label)</label>
+    <input className="form-control" type="text"
+           value="@TextBox.View.Bind(x=>x.props.Value)"
+           placeholder="@TextBox.View.Bind(x=>x.props.PlaceHolder)"
+           onChange="@TextBox.View.Bind(x=>x.props.Changed)" />
+</div>
+

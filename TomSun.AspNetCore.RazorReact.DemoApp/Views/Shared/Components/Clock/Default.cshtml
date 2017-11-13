@@ -1,0 +1,7 @@
+﻿@addTagHelper "*, TomSun.AspNetCore.RazorReact"
+@using TomSun.AspNetCore.RazorReact.DemoApp
+@using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.Clock
+<div>
+    Hi @Clock.View.Bind(x => x.state.Greetings)<br />
+    Server time is: @Clock.View.Bind(x => x.state.ServerTime)
+</div>

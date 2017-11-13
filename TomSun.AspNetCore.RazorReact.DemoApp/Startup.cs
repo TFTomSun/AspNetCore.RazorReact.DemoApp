@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,11 +20,12 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp
         {
             //services.AddMemoryCache();
             services.UseRazorReact();
+            services.AddSpaServicesAndComponents();
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -37,6 +39,7 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp
 
             app.UseStaticFiles();
             app.UseRazorReact();
+            app.UseSpaFramework(serviceProvider);
 
             app.UseMvc(routes =>
             {

@@ -1,6 +1,6 @@
 ﻿@page
 @addTagHelper "*, TomSun.AspNetCore.RazorReact"
-
+@addTagHelper "*, TomSun.AspNetCore.RazorReact.DemoApp"
 @using TomSun.AspNetCore.Extensions.TagHelpers
 @using TomSun.AspNetCore.RazorReact.DemoApp
 @using TomSun.AspNetCore.RazorReact.DemoApp.Pages
@@ -8,15 +8,87 @@
 @{
     ViewData["Title"] = "Home page";
 }
-<react-scripts/>
+<react-container>
+    <clock />
+    <clock />
+    @*<react>*@
+        <div>
+            This is a fancy container without any view model that renders
+            <clock/>
+            a clock inside.
+        </div>
+    @*</react>*@
+    @*<react component-type="@typeof(HelloWorld)">
+        <div>
+            Hi @HelloWorld.Bind(x => x.state.Greetings)<br/>
+            <react component-type="@typeof(HelloWorld2)"/>
+            Server time is: @HelloWorld.Bind(x => x.state.ServerTime)
+        </div>
+    </react>*@
+</react-container>
 
-<react component-type="@typeof(HelloWorld)">
+
+@*<div id="HelloWorld"> </div>
+<script type="text/babel">
+    window.HelloWorld2 = class HelloWorld2 extends React.Component {
+    constructor(props) {
+    super(props);
+
+    // Connect this component to the back-end view model.
+    this.vm = dotnetify.react.connect("HelloWorld2", this);
+
+    // Set up function to dispatch state to the back-end.
+    this.dispatchState = state => this.vm.$dispatch(state);
+
+    // The VM's initial state was generated server-side and included with the JSX.
+    this.state = {  };
+    }
+    componentWillUnmount() {
+    this.vm.$destroy();
+    }
+    render() {
+    return (
     <div>
-        Hi @HelloWorld.Bind(x => x.state.Greetings)<br />
-        Server time is: @HelloWorld.Bind(x => x.state.ServerTime)
+        Hi2 {this.state.Greetings}<br />
+        Server time is: {this.state.ServerTime}
     </div>
-</react>
+    );
+    }
+    }
 
+</script>
+<script type="text/babel" >
+
+    class HelloWorld extends React.Component {
+        constructor(props) {
+            super(props);
+
+            // Connect this component to the back-end view model.
+            this.vm = dotnetify.react.connect("HelloWorld", this);
+
+            // Set up function to dispatch state to the back-end.
+            this.dispatchState = state => this.vm.$dispatch(state);
+
+            // The VM's initial state was generated server-side and included with the JSX.
+            this.state = {  };
+        }
+        componentWillUnmount() {
+            this.vm.$destroy();
+        }
+        render() {
+            return (
+                <div>
+                Hi {this.state.Greetings}<br/>
+                    <HelloWorld2/>
+                Server time is: {this.state.ServerTime}
+                </div>
+        );
+        }
+    }
+    ReactDOM.render(
+    <HelloWorld />,
+    document.getElementById('HelloWorld'));
+</script>*@
 
 @functions{
     
