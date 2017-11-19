@@ -7,6 +7,7 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
 
     public class TextBox : ReactViewComponent<TextBox, TextBox.ReactView, TextBox.Properties, TextBox.State>
     {
+            
         public class State : Properties
         {
         }
@@ -16,11 +17,11 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
             public string Value { get; set; }
             public string PlaceHolder { get; set; }
             public string Label { get; set; }
-            public ActionDefinition<object> OnChange { get; set; }
+            public ActionDefinition<string> OnChange { get; set; }
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string value, string placeHolder, string label,
-            ActionDefinition<object> onChange = null)
+            ActionDefinition<string> onChange = null)
         {
             return await this.DoInvokeAsync((value, placeHolder, label, onChange));
         }
@@ -28,9 +29,9 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
         public class ReactView : BaseView
         {
 
-            public ActionDefinition<object> Alert()
+            public ActionDefinition<string> Alert()
             {
-                return ActionDefinition<object>.Create(v => alert(v));
+                return ActionDefinition<string>.Create(v => alert(v));
             }
 
             public FunctionDefinition<string> GetLabelText()

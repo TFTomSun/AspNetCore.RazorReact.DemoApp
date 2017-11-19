@@ -7,6 +7,7 @@
 @using TomSun.AspNetCore.RazorReact.DemoApp.Pages
 @using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
 @model TomSun.AspNetCore.RazorReact.DemoApp.Pages.IndexModel
+@inherits ReactRazorPage<IndexModel>
 @{
     ViewData["Title"] = "Home page";
 }
@@ -20,28 +21,37 @@
         </react-constructor>
         <react-render-funcion>
             <div>
-                <vc:text-box value="{this.state.FirstName}" label="First Name:" 
+                <vc:text-box value="@this.React.Bind(x=>x.state.FirstName)" label="First Name:" 
                              place-holder="Enter first name here..." 
-                             on-change=@ActionDefinition.Create("{value => this.setState({ FirstName: value })}")></vc:text-box>
+                             on-change="@this.React.HandleEvent<string>((v,value)=>v.setState(new HelloWorldState{FirstName=value}))"></vc:text-box>
                 <vc:text-box value="{this.state.LastName}" label="Last Name:"
                              place-holder="Enter last name here..."
                              on-change=@ActionDefinition.Create("{value => this.setState({ LastName: value })}")></vc:text-box>
 
-                <div>Full name is <b><span>{this.state.FirstName +" " + this.state.LastName}</span></b></div>
+                <div>Full name is <b><span>@this.React.Bind(x=>x.state.FirstName + " " + x.state.LastName)</span></b></div>
             </div>
         </react-render-funcion>
     </react-class>
     <react-render class-name="HelloWorld" FirstName="My" LastName="Name"></react-render>
-    @*<vc:clock />
-    <div>
-        This is a fancy container without any view model that renders
-        <vc:clock />
-        a clock inside.
-    </div>*@
+    
+    
+    
+    
 </react-container>
 
 
 @functions{
-    
 
+    private HelloWorldView React { get; } = new HelloWorldView();
+
+    private class HelloWorldState
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+
+    private class HelloWorldView : ReactView<HelloWorldView, HelloWorldState, object>
+    {
+
+    }
 }
