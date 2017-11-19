@@ -18,9 +18,7 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddMemoryCache();
             services.UseRazorReact();
-            services.AddSpaServicesAndComponents();
             services.AddMvc();
         }
 
@@ -38,8 +36,7 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp
             }
 
             app.UseStaticFiles();
-            app.UseRazorReact();
-            app.UseSpaFramework(serviceProvider);
+            app.UseRazorReact(serviceProvider);
 
             app.UseMvc(routes =>
             {
@@ -47,12 +44,6 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
-            //app.Run(async context =>
-            //{
-            //    await context.Response.WriteAsync(
-            //        File.ReadAllText("wwwroot/index.html"));
-            //});
         }
     }
 }

@@ -1,10 +1,31 @@
 ﻿@addTagHelper "*, TomSun.AspNetCore.RazorReact"
 @using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
-<div>
-    <label>@TextBox.View.Bind(x => x.props.Label)</label>
-    <input className="form-control" type="text"
-           value="@TextBox.View.Bind(x=>x.props.Value)"
-           placeholder="@TextBox.View.Bind(x=>x.props.PlaceHolder)"
-           onChange="@TextBox.View.Bind(x=>x.props.Changed)" />
-</div>
 
+<react-class class-name="@nameof(TextBox)">
+    <react-constructor>
+        this.state = props;
+        this.handleChange = this.handleChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    </react-constructor>
+    <react-render-funcion>
+        <div>
+            <label>@TextBox.View.Bind(x => x.props.Label)</label>
+            <input className="form-control" type="text"
+                   value="@TextBox.View.Bind(x=>x.state.Value)"
+                   placeholder="@TextBox.View.Bind(x=>x.props.PlaceHolder)"
+                   onChange="{this.handleChange}" />
+        </div>
+    </react-render-funcion>
+    <react-code>
+        handleChange(event) {
+            this.setState(
+            {Value : event.target.value});
+
+            if(this.props.OnChange)
+                this.props.OnChange(event.target.value);
+        }
+
+        handleBlur() {
+        }
+    </react-code>
+</react-class>

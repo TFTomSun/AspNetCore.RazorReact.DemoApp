@@ -2,93 +2,44 @@
 @addTagHelper "*, TomSun.AspNetCore.RazorReact"
 @addTagHelper "*, TomSun.AspNetCore.RazorReact.DemoApp"
 @using TomSun.AspNetCore.Extensions.TagHelpers
+@using TomSun.AspNetCore.RazorReact
 @using TomSun.AspNetCore.RazorReact.DemoApp
 @using TomSun.AspNetCore.RazorReact.DemoApp.Pages
+@using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.TextBox
 @model TomSun.AspNetCore.RazorReact.DemoApp.Pages.IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 <react-container>
-    <clock />
-    <clock />
-    @*<react>*@
-        <div>
-            This is a fancy container without any view model that renders
-            <clock/>
-            a clock inside.
-        </div>
-    @*</react>*@
-    @*<react component-type="@typeof(HelloWorld)">
-        <div>
-            Hi @HelloWorld.Bind(x => x.state.Greetings)<br/>
-            <react component-type="@typeof(HelloWorld2)"/>
-            Server time is: @HelloWorld.Bind(x => x.state.ServerTime)
-        </div>
-    </react>*@
+    <vc:text-box value="" label="Alert Box" place-holder="type something.." on-change="@TextBox.View.Alert()"></vc:text-box>
+    
+    <div>The razor clock <b><vc:clock parameter="null" /></b> is rendered inside a razor page rendered div/bold</div>
+    <react-class class-name="HelloWorld">
+        <react-constructor>
+            this.state = props;
+        </react-constructor>
+        <react-render-funcion>
+            <div>
+                <vc:text-box value="{this.state.FirstName}" label="First Name:" 
+                             place-holder="Enter first name here..." 
+                             on-change=@ActionDefinition.Create("{value => this.setState({ FirstName: value })}")></vc:text-box>
+                <vc:text-box value="{this.state.LastName}" label="Last Name:"
+                             place-holder="Enter last name here..."
+                             on-change=@ActionDefinition.Create("{value => this.setState({ LastName: value })}")></vc:text-box>
+
+                <div>Full name is <b><span>{this.state.FirstName +" " + this.state.LastName}</span></b></div>
+            </div>
+        </react-render-funcion>
+    </react-class>
+    <react-render class-name="HelloWorld" FirstName="My" LastName="Name"></react-render>
+    @*<vc:clock />
+    <div>
+        This is a fancy container without any view model that renders
+        <vc:clock />
+        a clock inside.
+    </div>*@
 </react-container>
 
-
-@*<div id="HelloWorld"> </div>
-<script type="text/babel">
-    window.HelloWorld2 = class HelloWorld2 extends React.Component {
-    constructor(props) {
-    super(props);
-
-    // Connect this component to the back-end view model.
-    this.vm = dotnetify.react.connect("HelloWorld2", this);
-
-    // Set up function to dispatch state to the back-end.
-    this.dispatchState = state => this.vm.$dispatch(state);
-
-    // The VM's initial state was generated server-side and included with the JSX.
-    this.state = {  };
-    }
-    componentWillUnmount() {
-    this.vm.$destroy();
-    }
-    render() {
-    return (
-    <div>
-        Hi2 {this.state.Greetings}<br />
-        Server time is: {this.state.ServerTime}
-    </div>
-    );
-    }
-    }
-
-</script>
-<script type="text/babel" >
-
-    class HelloWorld extends React.Component {
-        constructor(props) {
-            super(props);
-
-            // Connect this component to the back-end view model.
-            this.vm = dotnetify.react.connect("HelloWorld", this);
-
-            // Set up function to dispatch state to the back-end.
-            this.dispatchState = state => this.vm.$dispatch(state);
-
-            // The VM's initial state was generated server-side and included with the JSX.
-            this.state = {  };
-        }
-        componentWillUnmount() {
-            this.vm.$destroy();
-        }
-        render() {
-            return (
-                <div>
-                Hi {this.state.Greetings}<br/>
-                    <HelloWorld2/>
-                Server time is: {this.state.ServerTime}
-                </div>
-        );
-        }
-    }
-    ReactDOM.render(
-    <HelloWorld />,
-    document.getElementById('HelloWorld'));
-</script>*@
 
 @functions{
     

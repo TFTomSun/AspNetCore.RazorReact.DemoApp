@@ -1,7 +1,18 @@
 ﻿@addTagHelper "*, TomSun.AspNetCore.RazorReact"
-@using TomSun.AspNetCore.RazorReact.DemoApp
 @using TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.Clock
-<div>
-    Hi @Clock.View.Bind(x => x.state.Greetings)<br />
-    Server time is: @Clock.View.Bind(x => x.state.ServerTime)
-</div>
+
+<react-class class-name="@nameof(Clock)">
+    <react-constructor>
+        this.vm = dotnetify.react.connect("@nameof(ClockViewModel)", this);
+        this.dispatchState = state => this.vm.$dispatch(state);
+        this.state = {  };
+    </react-constructor>
+    <react-destructor>
+        this.vm.$destroy();
+    </react-destructor>
+    <react-render-funcion>
+        <div>@Clock.View.Bind(x => x.state.Title): @Clock.View.Bind(x => x.state.ServerTime)</div>
+    </react-render-funcion>
+</react-class>
+
+

@@ -5,9 +5,9 @@ namespace TomSun.AspNetCore.RazorReact.DemoApp.Views.Shared.Components.Clock
 {
     public class ClockViewModel : ReactViewModel<ClockViewModel>
     {
-        private Timer _timer;
-        public string Greetings => "This is a clock!";
-        public DateTime ServerTime => DateTime.Now;
+        private readonly Timer _timer;
+        public string Title => "Server side";
+        public string ServerTime => DateTime.Now.TimeOfDay.ToString(@"hh\:mm\:ss");
 
         public ClockViewModel()
         {
