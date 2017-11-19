@@ -9,8 +9,7 @@
     <PackageReference Include="TomSun.AspNetCore.RazorReact" Version="*" />
   </ItemGroup>
   <ItemGroup>
-    
-    <EmbeddedResource Include="**\*.cs"/>
+    <EmbeddedResource Include="**\*.cs" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
